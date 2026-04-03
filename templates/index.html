@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Tareas Casita</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+
+  <div class="app-shell">
+
+    <!-- LOGIN -->
+    <section id="loginView" class="screen card {% if user %}hidden{% endif %}" style="text-align:center;">
+
+      <div style="font-size:40px; margin-bottom:10px;">🏠</div>
+
+      <h1 style="margin-bottom:5px;">Tareas Casita</h1>
+      <div class="muted" style="margin-bottom:15px;">Acceso</div>
+
+      <input id="usuario" type="text" placeholder="Usuario" autocomplete="username">
+      <input id="clave" type="password" placeholder="Clave" autocomplete="current-password">
+
+      <button id="btnLogin" class="btn primary">Entrar</button>
+
+      <div id="loginMsg" class="msg"></div>
+
+    </section>
+
+
+    <!-- APP -->
+    <section id="appView" class="screen {% if not user %}hidden{% endif %}">
+
+      <header class="top card">
+        <div>
+          <div class="brand small">🏠 Tareas Casita</div>
+          <h2>Hola <span id="nombreUsuario">{{ user.nombre if user else '' }}</span></h2>
+          <div class="muted">Compras y tareas compartidas.</div>
+        </div>
+
+        <div class="top-buttons">
+          <button id="darkBtn" class="btn ghost">🌙 Modo oscuro</button>
+          <a class="btn danger" href="/logout">Salir</a>
+        </div>
+      </header>
+
+
+      <section class="card stats">
+        <div class="stat">
+          <small>Compras pendientes</small>
+          <strong id="countCompras">0</strong>
+        </div>
+
+        <div class="stat">
+          <small>Tareas pendientes</small>
+          <strong id="countTareas">0</strong>
+        </div>
+
+        <div class="stat full">
+          <small>Actividad reciente</small>
+          <strong id="countLogs">0</strong>
+        </div>
+      </section>
+
+
+      <section class="card">
+
+        <!-- COMPRAS -->
+        <div id="comprasTab" class="tabview">
+          <div class="tab-header">
+            <h3>Compras</h3>
+            <span class="chip">🛒 Compartidas</span>
+          </div>
+
+          <div class="input-row">
+            <input id="txtCompra" placeholder="Nueva compra">
+            <button class="btn primary" onclick="addItem('compras')">Agregar</button>
+          </div>
+
+          <div id="listaCompras"></div>
+        </div>
+
+
+        <!-- TAREAS -->
+        <div id="tareasTab" class="tabview hidden">
+          <div class="tab-header">
+            <h3>Tareas</h3>
+            <span class="chip">✅ Pendientes</span>
+          </div>
+
+          <div class="input-row">
+            <input id="txtTarea" placeholder="Nueva tarea">
+            <button class="btn primary" onclick="addItem('tareas')">Agregar</button>
+          </div>
+
+          <div id="listaTareas"></div>
+        </div>
+
+
+        <!-- ACTIVIDAD -->
+        <div id="actividadTab" class="tabview hidden">
+          <div class="tab-header">
+            <h3>Actividad</h3>
+            <span class="chip">🕒 Historial</span>
+          </div>
+
+          <div id="listaActividad"></div>
+        </div>
+
+
+        <!-- USUARIOS -->
+        <div id="usuariosTab" class="tabview hidden">
+          <div class="tab-header">
+            <h3>Usuarios</h3>
+            <span class="chip">👤 Gestión</span>
+          </div>
+
+          <div class="user-form">
+            <input id="nuevoUsername" placeholder="Usuario nuevo">
+            <input id="nuevoNombre" placeholder="Nombre visible">
+            <input id="nuevoPassword" type="password" placeholder="Clave nueva">
+            <button class="btn primary" onclick="addUser()">Crear usuario</button>
+          </div>
+
+          <div id="listaUsuarios"></div>
+        </div>
+
+
+        <!-- AVISOS -->
+        <div id="avisosTab" class="tabview hidden">
+          <div class="tab-header">
+            <h3>Avisos</h3>
+            <span class="chip">💬 En vivo</span>
+          </div>
+
+          <div id="chatAvisos" class="chat-wrap"></div>
+        </div>
+
+        <div id="estadoCarga"></div>
+
+      </section>
+    </section>
+
+  </div>
+
+
+  <!-- BOTÓN FLOTANTE -->
+  <button id="fabBtn" class="fab hidden">+</button>
+
+
+  <!-- MENÚ INFERIOR -->
+  <nav id="mobileNav" class="mobile-nav {% if not user %}hidden{% endif %}">
+    <button class="nav-btn active" data-tab="compras">🛒<span>Compras</span></button>
+    <button class="nav-btn" data-tab="tareas">✅<span>Tareas</span></button>
+    <button class="nav-btn" data-tab="actividad">🕒<span>Actividad</span></button>
+    <button class="nav-btn" data-tab="usuarios">👤<span>Usuarios</span></button>
+    <button class="nav-btn" data-tab="avisos">💬<span>Avisos</span></button>
+  </nav>
+
+
+  <div id="toast" class="toast"></div>
+
+  <script>
+    window.INITIAL_USER = {{ user|tojson }};
+  </script>
+
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+
+</body>
+</html>
