@@ -1,0 +1,21 @@
+{
+  "name": "Tareas Casita",
+  "short_name": "Casita",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#eef2f7",
+  "theme_color": "#2563eb",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/1946/1946488.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/1946/1946488.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
